@@ -58,7 +58,6 @@
 
 	hovering = TRUE
 	softfall = TRUE
-	parachuting = TRUE
 
 	var/parrot_state = PARROT_WANDER //Hunt for a perch when created
 	var/parrot_sleep_max = 25 //The time the parrot sits while perched before looking around. Mosly a way to avoid the parrot's AI in life() being run every single tick.
@@ -765,3 +764,9 @@
 	parrot_state = PARROT_SWOOP | PARROT_ATTACK //Attack other animals regardless
 	icon_state = "parrot_fly"
 	return success
+
+/mob/living/simple_animal/parrot/CanParachute()
+	return /obj/effect/fallshadow/parrot
+
+/obj/effect/fallshadow/parrot
+	name = "SQUAAAAK"

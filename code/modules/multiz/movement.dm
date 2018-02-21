@@ -360,6 +360,7 @@
 // Take damage from falling and hitting the ground
 /mob/living/fall_impact(var/atom/hit_atom, var/damage_min = 0, var/damage_max = 5, var/silent = FALSE, var/planetary = FALSE)
 	var/turf/landing = get_turf(hit_atom)
+
 	if(planetary && src.CanParachute())
 		if(!silent)
 			visible_message("<span class='warning'>\The [src] glides in from above and lands on \the [landing]!</span>", \
@@ -384,7 +385,9 @@
 				visible_message("<span class='warning'>\The [src] falls from above and slams into \the [landing]!</span>", \
 					"<span class='danger'>You fall off and hit \the [landing]!</span>", \
 					"You hear something slam into \the [landing].")
+
 			playsound(loc, "punch", 25, 1, -1)
+
 
 		// Because wounds heal rather quickly, 10 (the default for this proc) should be enough to discourage jumping off but not be enough to ruin you, at least for the first time.
 		// Hits 10 times, because apparently targeting individual limbs lets certain species survive the fall from atmosphere
@@ -397,13 +400,12 @@
 
 //Using /atom/movable instead of /obj/item because I'm not sure what all humans can pick up or wear
 /atom/movable
-	var/parachute = FALSE	// Is this thing a parachute itself?
-	var/hovering = FALSE	// Is the thing floating or flying in some way? If so, don't fall normally.	//Not implemented yet, idea is to let mobs/mechs ignore terrain slowdown and falling down floors
-	var/softfall = FALSE	// Is the thing able to lessen their impact upon falling?
-	var/parachuting = FALSE	// Is the thing able to jump out of planes and survive? Don't check this directly outside of CanParachute().
+	var/fallshadow_type = /obj/effect/fallshadow	// What sort of trouble are you in if you freefall with this thing? Null returns the default fall-and-die.
+	var/hovering = FALSE							// Is the thing floating or flying in some way? If so, don't fall normally.	//Not implemented yet, idea is to let mobs/mechs ignore terrain slowdown and falling down floors
+	var/softfall = FALSE							// Is the thing able to lessen their impact upon falling?
 
 /atom/movable/proc/isParachute()
-	return parachute
+	return fallshadow_type
 
 //This is what makes the parachute items know they've been used.
 //I made it /atom/movable so it can be retooled for other things (mobs, mechs, etc), though it's only currently called in human/CanParachute().
@@ -412,7 +414,7 @@
 
 //Checks if the thing is allowed to survive a fall from space
 /atom/movable/proc/CanParachute()
-	return parachuting
+	return /obj/effect/fallshadow
 
 //For humans, this needs to be a wee bit more complicated
 /mob/living/carbon/human/CanParachute()
@@ -422,19 +424,19 @@
 		back.handleParachute()
 		return TRUE
 	if(s_store && s_store.isParachute())
-		back.handleParachute()
+		s_store.handleParachute()
 		return TRUE
 	if(belt && belt.isParachute())
-		back.handleParachute()
+		belt.handleParachute()
 		return TRUE
 	if(wear_suit && wear_suit.isParachute())
-		back.handleParachute()
+		wear_suit.handleParachute()
 		return TRUE
 	if(w_uniform && w_uniform.isParachute())
-		back.handleParachute()
+		w_uniform.handleParachute()
 		return TRUE
 	else
-		return parachuting
+		return /obj/effect/fallshadow
 
 //Mech Code
 /obj/mecha/handle_fall(var/turf/landing)
@@ -495,3 +497,32 @@
 	if(istype(hit_atom, /turf/simulated/floor))
 		var/turf/simulated/floor/ground = hit_atom
 		ground.break_tile()
+
+// Fall Shadows
+// These handle the freefalling, and being able to move while freefalling
+/obj/effect/fallshadow
+	name = "shadow"
+	desc = "Something seems to be above this?"
+	icon = 'icons/obj/fallshadow.dmi'
+	icon_state = "fallshadow"
+	unacidable = 1
+	anchored = 1
+
+	var/min_damage = 42
+	var/max_damage = 90
+
+	var/allowed_movement = 0	// How far can you move this thing before it drops you?
+
+// Spawns the thing, throws the falling item inside, runs the proc that drops the contents
+/obj/effect/fallshadow/New(var/new_loc, var/atom/movable/AM)
+	..()
+	AM.forceMove(src)
+	var/turf/T = get_turf(src)
+	processFallShadow(T, AM)
+
+/obj/effect/fallshadow/proc/processFallShadow(var/turf/landing)
+	spawn (30)
+		for(var/atom/movable/AM in src.contents)
+			AM.forceMove(landing)
+			AM.fall_impact(landing, min_damage, max_damage, FALSE)
+		qdel_null(src)

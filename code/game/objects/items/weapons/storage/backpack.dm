@@ -360,18 +360,25 @@
 	icon_state = "parachute"
 	item_state_slots = list(slot_r_hand_str = "backpack", slot_l_hand_str = "backpack")
 	max_storage_space = ITEMSIZE_COST_NORMAL * 5
+	var/packed = FALSE
 
 /obj/item/weapon/storage/backpack/parachute/examine(mob/user)
 	var/msg = desc
 	if(get_dist(src, user) <= 1)
-		if(parachute)
+		if(packed)
 			msg += " It seems to be packed."
 		else
 			msg += " It seems to be unpacked."
 	to_chat(user, msg)
 
 /obj/item/weapon/storage/backpack/parachute/handleParachute()
-	parachute = FALSE	//If you parachute in, the parachute has probably been used.
+	packed = FALSE	//If you parachute in, the parachute has probably been used.
+
+/obj/item/weapon/storage/backpack/parachute/isParachute()
+	if(packed)
+		return /obj/effect/fallshadow	//parachute
+	else
+		return null
 
 /obj/item/weapon/storage/backpack/parachute/verb/pack_parachute()
 
@@ -392,7 +399,7 @@
 		to_chat(H, "<span class='warning'>How do you expect to work on \the [src] while it's on your back?</span>")
 		return
 
-	if(!parachute)	//This packs the parachute
+	if(!packed)	//This packs the parachute
 		H.visible_message("<span class='notice'>\The [H] starts to pack \the [src]!</span>", \
 					"<span class='notice'>You start to pack \the [src]!</span>", \
 					"You hear the shuffling of cloth.")
@@ -400,7 +407,7 @@
 			H.visible_message("<span class='notice'>\The [H] finishes packing \the [src]!</span>", \
 					"<span class='notice'>You finish packing \the [src]!</span>", \
 					"You hear the shuffling of cloth.")
-			parachute = TRUE
+			packed = TRUE
 		else
 			H.visible_message("<span class='notice'>\The [src] gives up on packing \the [src]!</span>", \
 					"<span class='notice'>You give up on packing \the [src]!</span>")
@@ -413,7 +420,7 @@
 			H.visible_message("<span class='notice'>\The [src] finishes unpacking \the [src]!</span>", \
 					"<span class='notice'>You finish unpacking \the [src]!</span>", \
 					"You hear the shuffling of cloth.")
-			parachute = FALSE
+			packed = FALSE
 		else
 			H.visible_message("<span class='notice'>\The [src] decides not to unpack \the [src]!</span>", \
 					"<span class='notice'>You decide not to unpack \the [src]!</span>")
