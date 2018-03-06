@@ -496,3 +496,10 @@ This function restores all organs.
 	updatehealth()
 	BITSET(hud_updateflag, HEALTH_HUD)
 	return 1
+
+// Rejuvenate
+/mob/living/carbon/human/rejuvenate()
+	restore_blood()
+	shock_stage = 0
+	traumatic_shock = 0
+	..()
