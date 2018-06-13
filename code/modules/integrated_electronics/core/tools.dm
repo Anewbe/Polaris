@@ -125,6 +125,7 @@
 		if("string")
 			accepting_refs = 0
 			new_data = input("Now type in a string.","[src] string writing") as null|text
+			new_data = sanitizeSafe(new_data, MAX_MESSAGE_LEN, 0, 0)
 			if(istext(new_data) && CanInteract(user, physical_state))
 				data_to_write = new_data
 				to_chat(user, "<span class='notice'>You set \the [src]'s memory to \"[new_data]\".</span>")
@@ -264,6 +265,7 @@
 		/obj/item/weapon/screwdriver,
 		/obj/item/device/multitool
 		)
+	cant_hold = list(/obj/item/weapon/screwdriver/power)
 
 /obj/item/weapon/storage/bag/circuits/basic/New()
 	..()

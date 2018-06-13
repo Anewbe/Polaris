@@ -9,7 +9,7 @@
 
 /obj/item/weapon/book/codex/initialize()
 	tree = new(src, root_type)
-	..()
+	. = ..()
 
 /obj/item/weapon/book/codex/attack_self(mob/user)
 	if(!tree)
@@ -23,6 +23,20 @@
 	has the words 'Don't Panic' in small, friendly letters on the cover."
 	icon_state = "codex"
 	root_type = /datum/lore/codex/category/main_vir_lore
+
+/obj/item/weapon/book/codex/lore/robutt
+	name = "A Buyer's Guide to Artificial Bodies"
+	desc = "Recommended reading for the newly cyborgified, new positronics, and the upwardly-mobile FBP."
+	icon_state = "codex_robutt"
+	root_type = /datum/lore/codex/category/main_robutts
+
+
+/obj/item/weapon/book/codex/lore/news
+	name = "Daedalus Pocket Newscaster"
+	desc = "A regularly-updating compendium of articles on current events. Essential for new arrivals in the Vir system and anyone interested in politics."
+	icon_state = "newscodex"
+	w_class = ITEMSIZE_SMALL
+	root_type = /datum/lore/codex/category/main_news
 
 // Combines SOP/Regs/Law
 /obj/item/weapon/book/codex/corp_regs

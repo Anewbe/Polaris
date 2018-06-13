@@ -43,16 +43,16 @@
 	containername = "Moghes imports crate"
 	contraband = 1
 
-/datum/supply_packs/security/bolt_rifles_mosin
- 	name = "Surplus militia rifles"
+/datum/supply_packs/munitions/bolt_rifles_militia
+ 	name = "Weapon - Surplus militia rifles"
  	contains = list(
- 			/obj/item/weapon/gun/projectile/shotgun/pump/rifle/mosin = 3,
+ 			/obj/item/weapon/gun/projectile/shotgun/pump/rifle = 3,
  			/obj/item/ammo_magazine/clip/c762 = 6
  			)
  	cost = 50
  	contraband = 1
  	containertype = /obj/structure/closet/crate/secure/weapon
- 	containername = "Weapons crate"
+ 	containername = "Ballistic weapons crate"
 
 /datum/supply_packs/randomised/misc/telecrate //you get something awesome, a couple of decent things, and a few weak/filler things
 	name = "ERR_NULL_ENTRY" //null crate! also dream maker is hell,
@@ -63,11 +63,13 @@
 					/obj/item/clothing/suit/storage/vest/heavy/merc,
 					/obj/item/clothing/glasses/night,
 					/obj/item/weapon/storage/box/anti_photons,
-					/obj/item/ammo_magazine/clip/c12g/pellet,				/obj/item/ammo_magazine/clip/c12g
+					/obj/item/ammo_magazine/clip/c12g/pellet,
+					/obj/item/ammo_magazine/clip/c12g
 					),
 			list( //the doc,
 					/obj/item/weapon/storage/firstaid/combat,
-					/obj/item/weapon/gun/projectile/dartgun,				/obj/item/weapon/reagent_containers/hypospray,
+					/obj/item/weapon/gun/projectile/dartgun,
+					/obj/item/weapon/reagent_containers/hypospray,
 					/obj/item/weapon/reagent_containers/glass/bottle/chloralhydrate,
 					/obj/item/weapon/reagent_containers/glass/bottle/cyanide,
 					/obj/item/ammo_magazine/chemdart
@@ -78,7 +80,7 @@
 					/obj/item/weapon/storage/box/syndie_kit/demolitions,
 					/obj/item/device/multitool/ai_detector,
 					/obj/item/weapon/plastique,
-					/obj/item/weapon/storage/toolbox/syndicate
+					/obj/item/weapon/storage/toolbox/syndicate/powertools
 					),
 			list( //the infiltrator,
 					/obj/item/weapon/gun/projectile/silenced,
@@ -94,7 +96,7 @@
 					/obj/item/clothing/glasses/thermal/syndi,
 					/obj/item/weapon/card/emag,
 					/obj/item/ammo_magazine/m45/ap,
-					/obj/item/weapon/material/hatchet/tacknife/combatknife,
+					/obj/item/weapon/material/knife/tacknife/combatknife,
 					/obj/item/clothing/mask/balaclava
 					)
 			)

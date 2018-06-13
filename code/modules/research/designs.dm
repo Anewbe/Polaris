@@ -210,7 +210,7 @@ other types of metals and chemistry for reagents).
 	build_type = PROTOLATHE | MECHFAB
 
 /datum/design/item/powercell/AssembleDesignName()
-	name = "Power cell model ([item_name])"
+	name = "Power Cell Model ([item_name])"
 
 /datum/design/item/powercell/AssembleDesignDesc()
 	if(build_path)
@@ -302,7 +302,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/clothing/glasses/hud/security
 	sort_string = "GAAAB"
 
-/datum/design/item/mesons
+/datum/design/item/hud/mesons
 	name = "Optical meson scanners design"
 	desc = "Using the meson-scanning technology those glasses allow you to see through walls, floor or anything else."
 	id = "mesons"
@@ -437,7 +437,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/stack/nanopaste
 	sort_string = "MBAAA"
 
-/datum/design/item/scalpel_laser1
+/datum/design/item/medical/scalpel_laser1
 	name = "Basic Laser Scalpel"
 	desc = "A scalpel augmented with a directed laser, for more precise cutting without blood entering the field. This one looks basic and could be improved."
 	id = "scalpel_laser1"
@@ -446,7 +446,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/surgical/scalpel/laser1
 	sort_string = "MBBAA"
 
-/datum/design/item/scalpel_laser2
+/datum/design/item/medical/scalpel_laser2
 	name = "Improved Laser Scalpel"
 	desc = "A scalpel augmented with a directed laser, for more precise cutting without blood entering the field. This one looks somewhat advanced."
 	id = "scalpel_laser2"
@@ -455,7 +455,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/surgical/scalpel/laser2
 	sort_string = "MBBAB"
 
-/datum/design/item/scalpel_laser3
+/datum/design/item/medical/scalpel_laser3
 	name = "Advanced Laser Scalpel"
 	desc = "A scalpel augmented with a directed laser, for more precise cutting without blood entering the field. This one looks to be the pinnacle of precision energy cutlery!"
 	id = "scalpel_laser3"
@@ -464,7 +464,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/surgical/scalpel/laser3
 	sort_string = "MBBAC"
 
-/datum/design/item/scalpel_manager
+/datum/design/item/medical/scalpel_manager
 	name = "Incision Management System"
 	desc = "A true extension of the surgeon's body, this marvel instantly and completely prepares an incision allowing for the immediate commencement of therapeutic steps."
 	id = "scalpel_manager"
@@ -473,7 +473,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/surgical/scalpel/manager
 	sort_string = "MBBAD"
 
-/datum/design/item/bone_clamp
+/datum/design/item/medical/bone_clamp
 	name = "Bone Clamp"
 	desc = "A miracle of modern science, this tool rapidly knits together bone, without the need for bone gel."
 	id = "bone_clamp"
@@ -481,6 +481,24 @@ other types of metals and chemistry for reagents).
 	materials = list (DEFAULT_WALL_MATERIAL = 12500, "glass" = 7500, "silver" = 2500)
 	build_path = /obj/item/weapon/surgical/bone_clamp
 	sort_string = "MBBAE"
+
+/datum/design/item/medical/advanced_roller
+	name = "advanced roller bed"
+	desc = "A more advanced version of the regular roller bed, with inbuilt surgical stabilisers and an improved folding system."
+	id = "roller_bed"
+	req_tech = list(TECH_BIO = 3, TECH_MATERIAL = 3, TECH_MAGNET = 3)
+	materials = list(DEFAULT_WALL_MATERIAL = 4000, "glass" = 2000, "phoron" = 2000)
+	build_path = /obj/item/roller/adv
+	sort_string = "MBBAF"
+
+/datum/design/item/medical/improved_analyzer
+	name = "improved health analyzer"
+	desc = "A prototype version of the regular health analyzer, able to distinguish the location of more serious injuries as well as accurately determine radiation levels."
+	id = "improved_analyzer"
+	req_tech = list(TECH_MAGNET = 5, TECH_BIO = 6)
+	materials = list(DEFAULT_WALL_MATERIAL = 2000, "glass" = 1000, "silver" = 1000, "gold" = 1500)
+	build_path = /obj/item/device/healthanalyzer/improved
+	sort_string = "MBBAG"
 
 /datum/design/item/implant
 	materials = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
@@ -547,7 +565,6 @@ other types of metals and chemistry for reagents).
 	id = "decloner"
 	req_tech = list(TECH_COMBAT = 8, TECH_MATERIAL = 7, TECH_BIO = 5, TECH_POWER = 6)
 	materials = list("gold" = 5000,"uranium" = 10000)
-	chemicals = list("mutagen" = 40)
 	build_path = /obj/item/weapon/gun/energy/decloner
 	sort_string = "TAAAE"
 
@@ -734,6 +751,15 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/device/lightreplacer
 	sort_string = "VAAAH"
 
+datum/design/item/laserpointer
+	name = "laser pointer"
+	desc = "Don't shine it in your eyes!"
+	id = "laser_pointer"
+	req_tech = list(TECH_MAGNET = 3)
+	materials = list(DEFAULT_WALL_MATERIAL = 100, "glass" = 50)
+	build_path = /obj/item/device/laser_pointer
+	sort_string = "VAAAI"
+
 /datum/design/item/paicard
 	name = "'pAI', personal artificial intelligence device"
 	id = "paicard"
@@ -741,6 +767,14 @@ other types of metals and chemistry for reagents).
 	materials = list("glass" = 500, DEFAULT_WALL_MATERIAL = 500)
 	build_path = /obj/item/device/paicard
 	sort_string = "VABAI"
+
+/datum/design/item/communicator
+	name = "Communicator"
+	id = "communicator"
+	req_tech = list(TECH_DATA = 2, TECH_MAGNET = 2)
+	materials = list(DEFAULT_WALL_MATERIAL = 500, "glass" = 500)
+	build_path = /obj/item/device/communicator
+	sort_string = "VABAJ"
 
 /datum/design/item/intellicard
 	name = "'intelliCore', AI preservation and transportation system"
@@ -815,6 +849,15 @@ other types of metals and chemistry for reagents).
 	materials = list("gold" = 3000, "diamond" = 1500, "uranium" = 250)
 	build_path = /obj/item/weapon/storage/backpack/holding
 	sort_string = "VAEAA"
+
+/datum/design/item/dufflebag_holding
+	name = "'DuffleBag of Holding', an infinite capacity dufflebag prototype"
+	desc = "A minaturized prototype of the popular Bag of Holding, the Dufflebag of Holding is, functionally, identical to the bag of holding, but comes in a more stylish and compact form."
+	id = "dufflebag_holding"
+	req_tech = list(TECH_BLUESPACE = 4, TECH_MATERIAL = 6)
+	materials = list("gold" = 3000, "diamond" = 1500, "uranium" = 250)
+	build_path = /obj/item/weapon/storage/backpack/holding/duffle
+	sort_string = "VAEAB"
 
 /datum/design/item/binaryencrypt
 	name = "Binary encryption key"
@@ -1211,6 +1254,14 @@ CIRCUITS BELOW
 	req_tech = list(TECH_POWER = 4, TECH_ENGINEERING = 3)
 	build_path = /obj/item/weapon/circuitboard/grid_checker
 	sort_string = "JBABC"
+
+/datum/design/circuit/breakerbox
+	name = "breaker box"
+	desc = "Allows for the construction of circuit boards used to build a breaker box."
+	id = "breakerbox"
+	req_tech = list(TECH_POWER = 3, TECH_ENGINEERING = 3)
+	build_path = /obj/item/weapon/circuitboard/breakerbox
+	sort_string = "JBABD"
 
 /datum/design/circuit/gas_heater
 	name = "gas heating system"
@@ -1756,9 +1807,34 @@ CIRCUITS BELOW
 	name = "handheld translator"
 	id = "translator"
 	req_tech = list(TECH_DATA = 3, TECH_ENGINEERING = 3)
-	materials = list(DEFAULT_WALL_MATERIAL = 2000, "glass" = 2000)
+	materials = list(DEFAULT_WALL_MATERIAL = 3000, "glass" = 3000)
 	build_path = /obj/item/device/universal_translator
-	sort_string = "HABBA"
+	sort_string = "HABQA"
+
+/datum/design/item/ear_translator
+	name = "earpiece translator"
+	id = "ear_translator"
+	req_tech = list(TECH_DATA = 5, TECH_ENGINEERING = 5)	//It's been hella miniaturized.
+	materials = list(DEFAULT_WALL_MATERIAL = 2000, "glass" = 2000, "gold" = 1000)
+	build_path = /obj/item/device/universal_translator/ear
+	sort_string = "HABQB"
+
+/datum/design/item/xenoarch_multi_tool
+	name = "xenoarcheology multitool"
+	id = "xenoarch_multitool"
+	req_tech = list(TECH_MAGNET = 3, TECH_ENGINEERING = 3, TECH_BLUESPACE = 3)
+	build_path = /obj/item/device/xenoarch_multi_tool
+	materials = list(DEFAULT_WALL_MATERIAL = 2000, "glass" = 1000, "uranium" = 500, "phoron" = 500)
+	sort_string = "HABQC"
+
+/datum/design/item/excavationdrill
+	name = "Excavation Drill"
+	id = "excavationdrill"
+	req_tech = list(TECH_MATERIAL = 3, TECH_POWER = 2, TECH_ENGINEERING = 2, TECH_BLUESPACE = 3)
+	build_type = PROTOLATHE
+	materials = list(DEFAULT_WALL_MATERIAL = 4000, "glass" = 4000)
+	build_path = /obj/item/weapon/pickaxe/excavationdrill
+	sort_string = "HABQD"
 
 /* Uncomment if someone makes these buildable
 /datum/design/circuit/general_alert

@@ -23,13 +23,14 @@
 	var/g_skin = 0
 	var/b_skin = 0
 
+	var/skin_state = SKIN_NORMAL
+
 	//Synth colors
 	var/synth_color	= 0					//Lets normally uncolorable synth parts be colorable.
 	var/r_synth							//Used with synth_color to color synth parts that normaly can't be colored.
 	var/g_synth							//Same as above
 	var/b_synth							//Same as above
 
-	var/size_multiplier = 1 //multiplier for the mob's icon size
 	var/damage_multiplier = 1 //multiplies melee combat damage
 	var/icon_update = 1 //whether icon updating shall take place
 
@@ -72,9 +73,6 @@
 	var/skill_specialization = null
 	var/list/skills = list()
 
-	var/icon/stand_icon = null
-	var/icon/lying_icon = null
-
 	var/voice = ""	//Instead of new say code calling GetVoice() over and over and over, we're just going to ask this variable, which gets updated in Life()
 
 	var/miming = null //Toggle for the mime's abilities.
@@ -103,3 +101,8 @@
 	var/step_count = 0 // Track how many footsteps have been taken to know when to play footstep sounds
 
 	can_be_antagged = TRUE
+
+// Used by mobs in virtual reality to point back to the "real" mob the client belongs to.
+	var/mob/living/carbon/human/vr_holder = null
+	// Used by "real" mobs after they leave a VR session
+	var/mob/living/carbon/human/vr_link = null

@@ -8,6 +8,9 @@
 	var/list/roundstart_weather_chances = list()
 	var/next_weather_shift = null
 
+	// Holds the weather icon, using vis_contents. Documentation says an /atom/movable is required for placing inside another atom's vis_contents.
+	var/atom/movable/weather_visuals/visuals = null
+
 /datum/weather_holder/New(var/source)
 	..()
 	our_planet = source
@@ -15,6 +18,7 @@
 		var/datum/weather/W = allowed_weather_types[A]
 		if(istype(W))
 			W.holder = src
+	visuals = new()
 
 /datum/weather_holder/proc/change_weather(var/new_weather)
 	var/old_light_modifier = null
@@ -41,7 +45,7 @@
 		current_weather.process_effects()
 
 /datum/weather_holder/proc/update_icon_effects()
-	our_planet.needs_work |= PLANET_PROCESS_WEATHER
+	visuals.icon_state = current_weather.icon_state
 
 /datum/weather_holder/proc/update_temperature()
 	temperature = Interpolate(current_weather.temp_low, current_weather.temp_high, weight = our_planet.sun_position)
@@ -59,9 +63,15 @@
 	var/temp_low = T0C
 	var/light_modifier = 1.0 // Lower numbers means more darkness.
 	var/light_color = null // If set, changes how the day/night light looks.
-	var/flight_falure_modifier = 0 // Some types of weather make flying harder, and therefore make crashes more likely.
+	var/flight_failure_modifier = 0 // Some types of weather make flying harder, and therefore make crashes more likely.
 	var/transition_chances = list() // Assoc list
 	var/datum/weather_holder/holder = null
 
 /datum/weather/proc/process_effects()
 	return
+
+// All this does is hold the weather icon.
+/atom/movable/weather_visuals
+	icon = 'icons/effects/weather.dmi'
+	mouse_opacity = 0
+	plane = PLANE_PLANETLIGHTING

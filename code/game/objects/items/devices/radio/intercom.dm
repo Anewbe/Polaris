@@ -2,6 +2,8 @@
 	name = "station intercom (General)"
 	desc = "Talk through this."
 	icon_state = "intercom"
+	plane = TURF_PLANE
+	layer = ABOVE_TURF_LAYER
 	anchored = 1
 	w_class = ITEMSIZE_LARGE
 	canhear_range = 2
@@ -48,6 +50,12 @@
 /obj/item/device/radio/intercom/entertainment
 	name = "entertainment intercom"
 	frequency = ENT_FREQ
+
+/obj/item/device/radio/intercom/omni
+	name = "global announcer"
+/obj/item/device/radio/intercom/omni/initialize()
+	channels = radiochannels.Copy()
+	return ..()
 
 /obj/item/device/radio/intercom/New()
 	..()

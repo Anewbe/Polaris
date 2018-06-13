@@ -35,7 +35,7 @@
 			var/obj/item/organ/external/E = get_organ(organ_name)
 			if(!E || E.is_stump())
 				tally += 4
-			else if(E.splinted)
+			else if(E.splinted && E.splinted.loc != E)
 				tally += 0.5
 			else if(E.status & ORGAN_BROKEN)
 				tally += 1.5
@@ -47,7 +47,7 @@
 			var/obj/item/organ/external/E = get_organ(organ_name)
 			if(!E || E.is_stump())
 				tally += 4
-			else if(E.splinted)
+			else if(E.splinted && E.splinted.loc != E)
 				tally += 0.5
 			else if(E.status & ORGAN_BROKEN)
 				tally += 1.5
@@ -106,6 +106,11 @@
 	item_tally *= species.item_slowdown_mod
 
 	tally += item_tally
+
+	if(CE_SLOWDOWN in chem_effects)
+		if (tally >= 0 )
+			tally = (tally + tally/4) //Add a quarter of penalties on top.
+		tally += 1
 
 	if(CE_SPEEDBOOST in chem_effects)
 		if (tally >= 0)	// cut any penalties in half
@@ -167,27 +172,6 @@
 	if(!config.footstep_volume || !T.footstep_sounds || !T.footstep_sounds.len || m_intent == M_STALK)
 		return
 
-	// Play every 20 steps while walking, for the sneak
-	if(m_intent == M_WALK && step_count++ % 20 != 0)
-		return
-
-	// Play every other step while running
-	if(m_intent == M_RUN && step_count++ % 5 != 0)
-		return
-
-	// Play every other step while sprinting
-	if(m_intent == M_SPRINT && step_count++ % 2 != 0)
-		return
-
-	if(!has_organ(BP_L_FOOT) && !has_organ(BP_R_FOOT))
-		return // no feet = no footsteps
-
-	if(buckled || lying || throwing)
-		return // people flying, lying down or sitting do not step
-
-	if(!has_gravity(src) && prob(75))
-		return // Far less likely to make noise in no gravity
-
 	// Future Upgrades - Multi species support
 	var/list/footstep_sounds = T.footstep_sounds["human"]
 	if(!footstep_sounds)
@@ -197,15 +181,40 @@
 	if(!S)
 		return
 
-	var/volume = config.footstep_volume
+	if(buckled || lying || throwing)
+		return // people flying, lying down or sitting do not step
 
+	if(!has_gravity(src) && prob(75))
+		return // Far less likely to make noise in no gravity
+
+	if(!has_organ(BP_L_FOOT) && !has_organ(BP_R_FOOT))
+		return // no feet = no footsteps
+
+	// Checking volume first, if
+	var/volume = config.footstep_volume
 	// Reduce volume while walking or barefoot
 	if(!shoes || m_intent <= M_WALK)
 		volume *= 0.5
 	else if(shoes)
 		var/obj/item/clothing/shoes/feet = shoes
-		if(feet)
+		if(istype(feet))
 			volume *= feet.step_volume_mod
+	if(!volume)
+		return		//No sound? Skip the rest of this
+
+	// And now we check if we actually need to play the footstep
+	var/count_div = 0 //Checks how often footsteps happen
+	switch(m_intent)
+		if(M_WALK)
+			count_div = 20	// Play every 20 steps while walking, for the sneak
+		if(M_RUN)
+			count_div = 5	// Play every five steps while running
+		if(M_SPRINT)
+			count_div = 2	// Play every other step while sprinting
+
+	if(count_div && step_count++ % count_div != 0)
+		return
+
 
 	playsound(T, S, volume, FALSE)
 	return
