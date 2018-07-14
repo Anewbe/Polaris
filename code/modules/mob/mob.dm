@@ -957,6 +957,9 @@ mob/proc/yank_out_object()
 					affected = organ
 
 		affected.implants -= selection
+		for(var/datum/wound/wound in affected.wounds)
+			wound.embedded_objects -= selection
+
 		H.shock_stage+=20
 		affected.take_damage((selection.w_class * 3), 0, 0, 1, "Embedded object extraction")
 

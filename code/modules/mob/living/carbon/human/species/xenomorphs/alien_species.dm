@@ -140,7 +140,8 @@
 	//next internal organs
 	for(var/obj/item/organ/I in H.internal_organs)
 		if(I.damage > 0)
-			I.damage = max(I.damage - heal_rate, 0)
+			I.adjust_scarring(-heal_rate)
+			I.heal_damage(heal_rate)
 			if (prob(5))
 				H << "<span class='alium'>You feel a soothing sensation within your [I.parent_organ]...</span>"
 			return 1
@@ -149,7 +150,7 @@
 	for(var/obj/item/organ/external/E in H.bad_external_organs)
 		if (E.status & ORGAN_BROKEN)
 			if (prob(mend_prob))
-				if (E.mend_fracture())
+				if (E.mend_fracture(TRUE))
 					H << "<span class='alium'>You feel something mend itself inside your [E.name].</span>"
 			return 1
 

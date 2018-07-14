@@ -182,22 +182,28 @@
 /datum/surgery_step/cavity/implant_removal/end_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	var/obj/item/organ/external/chest/affected = target.get_organ(target_zone)
 
-	var/find_prob = 0
+	var/find_prob = 25
+	var/list/loot = list()
 
-	if (affected.implants.len)
+	if(LAZYLEN(affected.implants))
+		loot |= affected.implants
 
-		var/obj/item/obj = pick(affected.implants)
+	for(var/datum/wound/wound in affected.wounds)
+		loot |= wound.embedded_objects
+
+	if(LAZYLEN(loot))
+		var/obj/item/obj = pick(loot)
 
 		if(istype(obj,/obj/item/weapon/implant))
 			var/obj/item/weapon/implant/imp = obj
 			if (imp.islegal())
 				find_prob +=60
 			else
-				find_prob +=40
+				find_prob +=15
 		else
 			find_prob +=50
 
-		if (prob(find_prob))
+		if(prob(find_prob))
 			user.visible_message("<font color='blue'>[user] takes something out of incision on [target]'s [affected.name] with \the [tool]!</font>", \
 			"<font color='blue'>You take [obj] out of incision on [target]'s [affected.name]s with \the [tool]!</font>" )
 			affected.implants -= obj
@@ -225,6 +231,7 @@
 	else
 		user.visible_message("<font color='blue'>[user] could not find anything inside [target]'s [affected.name], and pulls \the [tool] out.</font>", \
 		"<font color='blue'>You could not find anything inside [target]'s [affected.name].</font>" )
+
 
 /datum/surgery_step/cavity/implant_removal/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	..()

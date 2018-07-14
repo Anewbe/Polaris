@@ -11,24 +11,19 @@
 	if(!owner) return
 
 	if(owner.life_tick % PROCESS_ACCURACY == 0)
+		var/process_damage = 0.2 * PROCESS_ACCURACY		// This gets used everywhere in this proc, might as well define it.
 
 		//High toxins levels are dangerous
 		if(owner.getToxLoss() >= 50 && !owner.reagents.has_reagent("anti_toxin"))
-			//Healthy liver suffers on its own
-			if (src.damage < min_broken_damage)
-				src.damage += 0.2 * PROCESS_ACCURACY
-			//Damaged one shares the fun
-			else
+			take_damage(process_damage)	// Healthy liver suffers on its own
+			if(is_broken())
 				var/obj/item/organ/internal/O = pick(owner.internal_organs)
 				if(O)
-					O.damage += 0.2  * PROCESS_ACCURACY
+					O.take_damage(process_damage)	// Damaged one shares the fun
 
 		//Detox can heal small amounts of damage
-		if (src.damage && src.damage < src.min_bruised_damage && owner.reagents.has_reagent("anti_toxin"))
-			src.damage -= 0.2 * PROCESS_ACCURACY
-
-		if(src.damage < 0)
-			src.damage = 0
+		if(is_damaged() && !is_bruised() && owner.reagents.has_reagent("anti_toxin"))
+			heal_damage(process_damage)
 
 		// Get the effectiveness of the liver.
 		var/filter_effect = 3

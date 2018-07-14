@@ -6,30 +6,37 @@ var/list/organ_cache = list()
 	germ_level = 0
 
 	// Strings.
-	var/organ_tag = "organ"           // Unique identifier.
-	var/parent_organ = BP_TORSO       // Organ holding this object.
+	var/organ_tag = "organ"				// Unique identifier.
+	var/parent_organ = BP_TORSO			// Organ holding this object.
 
 	// Status tracking.
-	var/status = 0                    // Various status flags
-	var/vital                         // Lose a vital limb, die immediately.
-	var/damage = 0                    // Current damage to the organ
+	var/status = 0						// Various status flags
+	var/vital							// Lose a vital limb, die immediately.
+	var/damage = 0						// Current damage to the organ
 	var/robotic = 0
 
 	// Reference data.
-	var/mob/living/carbon/human/owner // Current mob owning the organ.
-	var/list/transplant_data          // Transplant match data.
-	var/list/autopsy_data = list()    // Trauma data for forensics.
-	var/list/trace_chemicals = list() // Traces of chemicals in the organ.
-	var/datum/dna/dna                 // Original DNA.
-	var/datum/species/species         // Original species.
+	var/mob/living/carbon/human/owner	// Current mob owning the organ.
+	var/list/transplant_data			// Transplant match data.
+	var/list/autopsy_data = list()		// Trauma data for forensics.
+	var/list/trace_chemicals = list()	// Traces of chemicals in the organ.
+	var/datum/dna/dna					// Original DNA.
+	var/datum/species/species			// Original species.
 
 	// Damage vars.
-	var/min_bruised_damage = 10       // Damage before considered bruised
-	var/min_broken_damage = 30        // Damage before becoming broken
-	var/max_damage                    // Damage cap
-	var/can_reject = 1                // Can this organ reject?
-	var/rejecting                     // Is this organ already being rejected?
-	var/preserved = 0                 // If this is 1, prevents organ decay.
+	var/last_damage_time = 0			// Tracks when the organ was last injured
+	var/min_bruised_damage = 25			// Damage before considered bruised
+	var/min_broken_damage = 50			// Damage before becoming broken
+	var/max_damage = 100				// Damage cap
+
+	var/scarring = 0					// Damage can't be healed below this number, for internal organs
+	var/scar_heal_delay = 10 MINUTES	// How long in between taking damage and the organ starting to heal scarring
+	var/scar_heal_amount = 0.1			// How much scarring the organ heals per tick, if it can
+
+	var/can_reject = 1					// Can this organ reject?
+	var/rejecting						// Is this organ already being rejected?
+
+	var/preserved = 0					// If this is 1, prevents organ decay.
 
 	// Language vars. Putting them here in case we decide to do something crazy with sign-or-other-nonverbal languages.
 	var/list/will_assist_languages = list()
@@ -141,6 +148,7 @@ var/list/organ_cache = list()
 		handle_antibiotics()
 		handle_rejection()
 		handle_germ_effects()
+		handle_scarring()
 
 /obj/item/organ/examine(mob/user)
 	..(user)
@@ -211,6 +219,12 @@ var/list/organ_cache = list()
 						adjust_germ_level(rand(3,5))
 						owner.reagents.add_reagent("toxin", rand(1,2))
 
+// Slowly heals from scarring, in process
+/obj/item/organ/proc/handle_scarring()
+	if(scarring < min_broken_damage)
+		if(last_damage_time + scar_heal_delay >= world.time)
+			adjust_scarring(-scar_heal_amount)
+
 /obj/item/organ/proc/receive_chem(chemical as obj)
 	return 0
 
@@ -218,6 +232,7 @@ var/list/organ_cache = list()
 	qdel(src)
 
 /obj/item/organ/proc/rejuvenate(var/ignore_prosthetic_prefs)
+	scarring = 0
 	damage = 0
 	status = 0
 	germ_level = 0
@@ -265,18 +280,36 @@ var/list/organ_cache = list()
 	W.damage += damage
 	W.time_inflicted = world.time
 
+//Increases organ damage by amount. NOTE: Should only be passed positive amounts! For healing, use heal_damage()!
 //Note: external organs have their own version of this proc
-/obj/item/organ/proc/take_damage(amount, var/silent=0)
-	if(src.robotic >= ORGAN_ROBOT)
-		src.damage = between(0, src.damage + (amount * 0.8), max_damage)
-	else
-		src.damage = between(0, src.damage + amount, max_damage)
+/obj/item/organ/proc/take_damage(amount, var/silent = FALSE)
+	if(robotic >= ORGAN_ROBOT)
+		amount *= 0.8
+		silent = TRUE	// Purely robotic organs don't feel pain
+	else if(robotic >= ORGAN_ASSISTED)
+		amount *= 0.9	// Finally a notable benefit for these things
 
-		//only show this if the organ is not robotic
-		if(owner && parent_organ && amount > 0)
-			var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
-			if(parent && !silent)
-				owner.custom_pain("Something inside your [parent.name] hurts a lot.", amount)
+	damage = between(0, damage + amount, max_damage)
+	last_damage_time = world.time
+
+	if(is_bruised() || amount >= 10)	// Bruised organs are vulnerable, but any big hit can also scar
+		var/to_scar = amount * 0.5
+		if(to_scar >= 0.1)				// Less than 0.1? Skip it.
+			adjust_scarring(to_scar)
+
+	if(owner && parent_organ && amount > 0)
+		var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
+		if(parent && !silent)
+			owner.custom_pain("Something inside your [parent.name] hurts a lot.", amount)
+
+/obj/item/organ/proc/heal_damage(amount, robo_repair = FALSE)
+	if(robotic >= ORGAN_ROBOT && !robo_repair)
+		return
+	damage = between(scarring, damage - round(amount, 0.1), max_damage)
+
+// Adjusts scarring by amount, positive makes things worse, negative makes things better
+/obj/item/organ/proc/adjust_scarring(var/amount = 0)
+	scarring = between(0, scarring + round(amount, 0.1), max_damage)
 
 /obj/item/organ/proc/bruise()
 	damage = max(damage, min_bruised_damage)
@@ -290,8 +323,6 @@ var/list/organ_cache = list()
 /obj/item/organ/proc/mechassist() //Used to add things like pacemakers, etc
 	robotize()
 	robotic = ORGAN_ASSISTED
-	min_bruised_damage = 15
-	min_broken_damage = 35
 
 /obj/item/organ/proc/digitize() //Used to make the circuit-brain. On this level in the event more circuit-organs are added/tweaks are wanted.
 	robotize()

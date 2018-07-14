@@ -127,8 +127,8 @@
 		if(istype(L))
 			if(L.robotic >= ORGAN_ROBOT)
 				return
-			if(L.damage > 0)
-				L.damage = max(L.damage - 2 * removed, 0)
+			if(L.is_damaged())
+				L.heal_damage(2)
 		if(alien == IS_SLIME)
 			H.druggy = max(M.druggy, 5)
 
@@ -421,8 +421,9 @@
 		if(istype(E))
 			if(E.robotic >= ORGAN_ROBOT)
 				return
-			if(E.damage > 0)
+			if(E.is_damaged())
 				E.damage = max(E.damage - 5 * removed, 0)
+				E.heal_damage(5 * removed)
 			if(E.damage <= 5 && E.organ_tag == O_EYES)
 				H.sdisabilities &= ~BLIND
 
@@ -441,9 +442,9 @@
 		var/mob/living/carbon/human/H = M
 		for(var/obj/item/organ/I in H.internal_organs)
 			if(I.robotic >= ORGAN_ROBOT)
-				continue
-			if(I.damage > 0) //Peridaxon heals only non-robotic organs
-				I.damage = max(I.damage - removed, 0)
+				return //Peridaxon heals only non-robotic organs
+			if(I.is_damaged())
+				I.heal_damage(removed)
 				H.Confuse(5)
 			if(I.damage <= 5 && I.organ_tag == O_EYES)
 				H.eye_blurry = min(M.eye_blurry + 10, 250) //Eyes need to reset, or something
@@ -467,13 +468,14 @@
 	if(alien == IS_DIONA)
 		return
 	M.heal_organ_damage(3 * removed, 0)	//Gives the bones a chance to set properly even without other meds
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		for(var/obj/item/organ/external/O in H.bad_external_organs)
-			if(O.status & ORGAN_BROKEN)
-				O.mend_fracture()		//Only works if the bone won't rebreak, as usual
-				H.custom_pain("You feel a terrible agony tear through your bones!",60)
-				H.AdjustWeakened(1)		//Bones being regrown will knock you over
+	if(dose >= 5)	// Takes a little bit to do anything
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			for(var/obj/item/organ/external/O in H.bad_external_organs)
+				if(O.status & ORGAN_BROKEN)
+					O.mend_fracture()		//Only works if the bone won't rebreak, as usual
+					H.custom_pain("You feel a terrible agony tear through your bones!",60)
+					H.AdjustWeakened(1)		//Bones being regrown will knock you over
 
 /datum/reagent/myelamine
 	name = "Myelamine"

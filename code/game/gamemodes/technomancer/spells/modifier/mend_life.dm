@@ -35,8 +35,12 @@
 	if(!holder.getBruteLoss() && !holder.getFireLoss()) // No point existing if the spell can't heal.
 		expire()
 		return
-	holder.adjustBruteLoss(-4 * spell_power) // Should heal roughly 20 burn/brute over 10 seconds, as tick() is run every 2 seconds.
-	holder.adjustFireLoss(-4 * spell_power) // Ditto.
+
+	if(ishuman(holder))
+		holder.heal_overall_damage(4 * spell_power, 4 * spell_power, heal_scarring = TRUE)
+	else
+		holder.adjustBruteLoss(-4 * spell_power) // Should heal roughly 20 burn/brute over 10 seconds, as tick() is run every 2 seconds.
+		holder.adjustFireLoss(-4 * spell_power) // Ditto.
 	holder.adjust_instability(1)
 	if(origin)
 		var/mob/living/L = origin.resolve()
