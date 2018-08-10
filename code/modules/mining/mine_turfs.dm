@@ -165,13 +165,13 @@ var/list/mining_overlay_cache = list()
 
 		//Apply overlays if there's space
 		for(var/direction in cardinal)
-			if(istype(get_step(src, direction), /turf/space) && !istype(get_step(src, direction), /turf/space/cracked_asteroid))
-				add_overlay(get_cached_border("asteroid_edge",direction,icon,"asteroid_edges", 0))
+			var/turf/T = get_step(src, direction)
 
-			//Or any time
-			else
-				var/turf/T = get_step(src, direction)
-				if(istype(T) && T.density)
+			if(istype(T))
+				if(istype(T, /turf/space) && !istype(T, /turf/space/cracked_asteroid))	// Space has a special overlay
+					add_overlay(get_cached_border("asteroid_edge",direction,icon,"asteroid_edges", 0))
+
+				else if(T.density)
 					add_overlay(get_cached_border("rock_side",direction,'icons/turf/walls.dmi',"rock_side"))
 
 		if(overlay_detail)
