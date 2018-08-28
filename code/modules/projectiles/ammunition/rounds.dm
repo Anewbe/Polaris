@@ -227,13 +227,36 @@
 	projectile_type = /obj/item/projectile/energy/flash/flare
 	matter = list(DEFAULT_WALL_MATERIAL = 90, "glass" = 90)
 
+// Emp shot
 /obj/item/ammo_casing/a12g/emp
 	name = "ion shell"
 	desc = "An advanced shotgun round that creates a small EMP when it strikes a target."
 	icon_state = "empshell"
 	projectile_type = /obj/item/projectile/ion
-//	projectile_type = /obj/item/projectile/bullet/shotgun/ion
 	matter = list(DEFAULT_WALL_MATERIAL = 360, "uranium" = 240)
+
+/obj/item/ammo_casing/a12g/emp/emp_act(severity)
+	if(prob(100/severity)) BB = null
+	update_icon()
+
+// Laser shot
+/obj/item/ammo_casing/a12g/laser
+	name = "laser shell"
+	desc = "An advanced shotgun round that creates a laser when fired."
+	icon_state = "stunshell"
+	projectile_type = /obj/item/projectile/beam/heavylaser	// Same as the mounted laser cannons
+	matter = list(DEFAULT_WALL_MATERIAL = 360, "uranium" = 240)
+
+/obj/item/ammo_casing/a12g/laser/emp_act(severity)
+	if(prob(100/severity)) BB = null
+	update_icon()
+
+// Flamethrower shot
+/obj/item/ammo_casing/a12g/flame
+	name = "flame shell"
+	desc = "Ask not if you should, but rather if you can."
+	icon_state = "gshell"
+	projectile_type = /obj/item/projectile/bullet/incendiary/flamethrower
 
 /*
  * 7.62mm
