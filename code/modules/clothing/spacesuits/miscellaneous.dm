@@ -13,7 +13,7 @@
 	name = "Colony Director's armor"
 	desc = "A bulky, heavy-duty piece of exclusive corporate armor. YOU are in charge!"
 	icon_state = "caparmor"
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.02
 	item_flags = 0

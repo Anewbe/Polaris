@@ -10,7 +10,7 @@
 	item_state_slots = list(slot_r_hand_str = "laundry", slot_l_hand_str = "laundry")
 	desc = "The peak of thousands of years of laundry evolution."
 
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	max_w_class = ITEMSIZE_LARGE
 	max_storage_space = ITEMSIZE_COST_NORMAL * 8
 	storage_slots = 20

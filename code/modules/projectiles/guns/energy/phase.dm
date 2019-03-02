@@ -37,7 +37,7 @@ obj/item/weapon/gun/energy/phasegun/rifle
 	icon_state = "phaserifle"
 	item_state = "phaserifle"
 	wielded_item_state = "phaserifle-wielded"
-	w_class = ITEMSIZE_LARGE
+	w_class = ITEMSIZE_HUGE
 	slot_flags = SLOT_BACK
 	charge_cost = 150
 	projectile_type = /obj/item/projectile/energy/phase/heavy
@@ -50,7 +50,7 @@ obj/item/weapon/gun/energy/phasegun/rifle
 	icon_state = "phasecannon"
 	item_state = "phasecannon"
 	wielded_item_state = "phasecannon-wielded"	//TODO: New Sprites
-	w_class = ITEMSIZE_HUGE		// This thing is big.
+	w_class = ITEMSIZE_MASSIVE		// This thing is big.
 	slot_flags = SLOT_BACK
 	charge_cost = 100
 	projectile_type = /obj/item/projectile/energy/phase/heavy/cannon

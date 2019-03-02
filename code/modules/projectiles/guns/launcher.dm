@@ -1,7 +1,7 @@
 /obj/item/weapon/gun/launcher
 	name = "launcher"
 	desc = "A device that launches things."
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 

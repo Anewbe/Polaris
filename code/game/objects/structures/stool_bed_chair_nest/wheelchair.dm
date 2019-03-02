@@ -206,7 +206,7 @@
 	icon = 'icons/obj/furniture.dmi'
 	icon_state = "wheelchair_folded"
 	item_state = "wheelchair"
-	w_class = ITEMSIZE_HUGE // Can't be put in backpacks. Oh well.
+	w_class = ITEMSIZE_MASSIVE // Can't be put in backpacks. Oh well.
 
 /obj/item/wheelchair/attack_self(mob/user)
 		var/obj/structure/bed/chair/wheelchair/R = new /obj/structure/bed/chair/wheelchair(user.loc)

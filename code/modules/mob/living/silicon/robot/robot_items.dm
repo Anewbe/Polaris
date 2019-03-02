@@ -375,7 +375,7 @@
 	var/mode = 0 // 0 - Walls   1 - Doors
 
 /obj/item/weapon/inflatable_dispenser/robot
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	stored_walls = 10
 	stored_doors = 5
 	max_walls = 10

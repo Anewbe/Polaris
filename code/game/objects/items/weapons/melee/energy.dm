@@ -74,14 +74,14 @@
 	//active_force = 150 //holy...
 	active_force = 60
 	active_throwforce = 35
-	active_w_class = ITEMSIZE_HUGE
+	active_w_class = ITEMSIZE_MASSIVE
 	//force = 40
 	//throwforce = 25
 	force = 20
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 5
-	w_class = ITEMSIZE_NORMAL
+	w_class = ITEMSIZE_LARGE
 	flags = CONDUCT | NOBLOODY
 	origin_tech = list(TECH_MAGNET = 3, TECH_COMBAT = 4)
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
@@ -316,7 +316,7 @@
  	w_class = ITEMSIZE_LARGE
  	active_force = 25
  	active_throwforce = 30
- 	active_w_class = ITEMSIZE_HUGE
+ 	active_w_class = ITEMSIZE_MASSIVE
  	var/random_color = TRUE
  	var/tip_color = ""
  	var/active_state = "espear"

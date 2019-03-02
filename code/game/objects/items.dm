@@ -205,8 +205,10 @@
 			size = "normal-sized"
 		if(ITEMSIZE_LARGE)
 			size = "bulky"
-		if(ITEMSIZE_HUGE)
-			size = "huge"
+//		if(ITEMSIZE_HUGE)
+//			size = "huge"
+		if(ITEMSIZE_MASSIVE)
+			size = "massive"
 	return ..(user, distance, "", "It is a [size] item.")
 
 /obj/item/attack_hand(mob/living/user as mob)

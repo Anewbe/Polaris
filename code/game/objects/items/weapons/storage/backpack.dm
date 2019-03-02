@@ -137,8 +137,9 @@
 	name = "dufflebag"
 	desc = "A large dufflebag for holding extra things."
 	icon_state = "duffle"
-	slowdown = 1
+	slowdown = 0.5
 	max_storage_space = INVENTORY_DUFFLEBAG_SPACE
+	max_w_class = ITEMSIZE_HUGE
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie
 	name = "black dufflebag"

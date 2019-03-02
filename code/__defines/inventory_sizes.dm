@@ -6,6 +6,7 @@
 #define ITEMSIZE_NORMAL				3
 #define ITEMSIZE_LARGE				4
 #define ITEMSIZE_HUGE				5
+#define ITEMSIZE_MASSIVE			6
 #define ITEMSIZE_NO_CONTAINER		100 // Use this to forbid item from being placed in a container.
 
 // Tweak these to determine how much space an item takes in a container.
@@ -17,6 +18,7 @@
 #define ITEMSIZE_COST_NORMAL		4
 #define ITEMSIZE_COST_LARGE			8
 #define ITEMSIZE_COST_HUGE			16
+#define ITEMSIZE_COST_MASSIVE		24
 #define ITEMSIZE_COST_NO_CONTAINER	1000
 
 // Container sizes.  Note that different containers can hold a maximum ITEMSIZE.

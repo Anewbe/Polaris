@@ -33,7 +33,7 @@
 
 	abstract = 1
 	item_state = "nothing"
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_NO_CONTAINER
 
 
 /obj/item/weapon/grab/New(mob/user, mob/victim)

@@ -3,7 +3,7 @@
 	desc = "A secure box containing a Detective's sidearm."
 	icon = 'icons/obj/storage.dmi'
 	icon_state = "gunbox"
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 
 /obj/item/gunbox/attack_self(mob/living/user)
 	var/list/options = list()

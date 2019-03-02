@@ -137,7 +137,7 @@
 	charge_cost = 600
 	fire_delay = 35
 	force = 10
-	w_class = ITEMSIZE_HUGE // So it can't fit in a backpack.
+	w_class = ITEMSIZE_MASSIVE // So it can't fit in a backpack.
 	accuracy = -45 //shooting at the hip
 	scoped_accuracy = 0
 //	requires_two_hands = 1

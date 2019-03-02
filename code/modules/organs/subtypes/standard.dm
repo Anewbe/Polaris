@@ -10,7 +10,7 @@
 	icon_name = "torso"
 	max_damage = 100
 	min_broken_damage = 35
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	body_part = UPPER_TORSO
 	vital = 1
 	amputation_point = "spine"

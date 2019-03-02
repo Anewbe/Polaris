@@ -8,7 +8,7 @@
 	origin_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 4, TECH_MAGNET = 4)
 	projectile_type = /obj/item/projectile/bullet/magnetic/slug
 	power_cost = 300
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	slot_flags = SLOT_BELT
 	loaded = /obj/item/weapon/rcd_ammo/large
 	slowdown = 1	// Slowdown equals slowdown_worn, until we decide to import the system to differentiate between held and worn items

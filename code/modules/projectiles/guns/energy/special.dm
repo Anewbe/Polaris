@@ -182,7 +182,7 @@ obj/item/weapon/gun/energy/staff/focus
 	icon_state = "dakkalaser"
 	item_state = "dakkalaser"
 	wielded_item_state = "dakkalaser-wielded"
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 	charge_cost = 24 // 100 shots, it's a spray and pray (to RNGesus) weapon.
 	projectile_type = /obj/item/projectile/energy/blue_pellet
 	cell_type = /obj/item/weapon/cell/device/weapon/recharge
@@ -205,7 +205,7 @@ obj/item/weapon/gun/energy/staff/focus
 	icon_state = "mhdhowitzer"
 	item_state = "mhdhowitzer"
 	wielded_item_state = "mhdhowitzer-wielded"
-	w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_MASSIVE
 
 	charge_cost = 10000 // Uses large cells, can at max have 3 shots.
 	projectile_type = /obj/item/projectile/beam/tungsten
